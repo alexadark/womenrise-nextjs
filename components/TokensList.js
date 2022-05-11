@@ -34,7 +34,11 @@ const TokensList = () => {
           return <Token key={tokenID} id={tokenID} image={image} name={name} />
         })}
       </div>
-      <button onClick={() => loadMoreTokens()} disabled={loadingMoreTokens}>
+      <button
+        className="px-5 py-3 mt-10 text-xs font-medium uppercase transition duration-500 border-2 border-black hover:bg-black hover:text-white"
+        onClick={() => loadMoreTokens()}
+        disabled={loadingMoreTokens}
+      >
         {loadingMoreTokens ? 'Loading...' : 'Show More'}
       </button>
     </div>
