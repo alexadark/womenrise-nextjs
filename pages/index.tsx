@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { initializeApollo, addApolloState } from 'lib/apolloClient'
-import { GET_ALL_TOKENS_QUERY, allTokensQueryVars } from 'lib/queries'
+import { GET_ALL_TOKENS_QUERY, tokensQueryVars } from 'lib/queries'
 import TokensList from 'components/TokensList'
 
 type token = {
@@ -18,13 +18,13 @@ type homeType = {
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
         <title>Women Rise</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center flex-1 w-full px-20 text-center">
+      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
         <TokensList />
       </main>
     </div>
@@ -35,7 +35,7 @@ export async function getStaticProps() {
 
   await apolloClient.query({
     query: GET_ALL_TOKENS_QUERY,
-    variables: allTokensQueryVars,
+    variables: tokensQueryVars,
   })
 
   return addApolloState(apolloClient, {
