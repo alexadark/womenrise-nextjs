@@ -1,27 +1,10 @@
-import { useQuery, NetworkStatus } from '@apollo/client'
 import { GET_ALL_TOKENS_QUERY, tokensQueryVars } from 'lib/queries'
+import { useQueryTokens } from 'lib/hooks'
 import Token from './Token'
 
 const TokensList = () => {
-  const { loading, error, data, fetchMore, networkStatus } = useQuery(
-    GET_ALL_TOKENS_QUERY,
-    {
-      variables: tokensQueryVars,
-      //Component will rerender when the "network status" changes. so we are able to know if it is fetching more data
-      notifyOnNetworkStatusChange: true,
-    }
-  )
-
-  const loadingMoreTokens = networkStatus === NetworkStatus.fetchMore
-  const { tokens } = data || {}
-
-  const loadMoreTokens = () => {
-    fetchMore({
-      variables: {
-        skip: data.tokens.length,
-      },
-    })
-  }
+  const { loading, error, tokens, loadingMoreTokens, loadMoreTokens } =
+    useQueryTokens(GET_ALL_TOKENS_QUERY, tokensQueryVars)
 
   if (error) return <div>"Error loading Tokens"</div>
   if (loading && !loadingMoreTokens) return <div>Loading...</div>
@@ -35,7 +18,7 @@ const TokensList = () => {
         })}
       </div>
       <button
-        className="mt-10 border-2 border-black px-5 py-3 text-xs font-medium uppercase transition duration-500 hover:bg-black hover:text-white"
+        className="px-5 py-3 mt-10 text-xs font-medium uppercase transition duration-500 border-2 border-black hover:bg-black hover:text-white"
         onClick={() => loadMoreTokens()}
         disabled={loadingMoreTokens}
       >
