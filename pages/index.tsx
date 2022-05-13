@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { initializeApollo, addApolloState } from 'lib/apolloClient'
@@ -18,6 +19,20 @@ type homeType = {
 }
 
 const Home = () => {
+  const [filters, setFilters] = useState({
+    background: '',
+    accessories: '',
+    clothes: '',
+    hair: '',
+    eyes: '',
+    lips: '',
+  })
+  const queryVars = {
+    ...tokensQueryVars,
+    ...filters,
+  }
+  console.log(filters)
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
@@ -26,7 +41,35 @@ const Home = () => {
       </Head>
 
       <main className="flex flex-col items-center justify-center flex-1 w-full px-20 text-center">
-        <TokensList query={GET_ALL_TOKENS_QUERY} variables={tokensQueryVars} />
+        <div className="grid grid-cols-5 gap-10">
+          <div className="col-span-1">
+            <h3>Filters</h3>
+            <form className="space-y-5" onSubmit={}>
+              <input
+                type="text"
+                placeholder="background"
+                value={filters.background}
+                onChange={(e) =>
+                  setFilters({ ...filters, background: e.target.value })
+                }
+              />
+              <input
+                type="text"
+                placeholder="accessories"
+                value={filters.accessories}
+                onChange={(e) =>
+                  setFilters({ ...filters, accessories: e.target.value })
+                }
+              />
+              <input type="submit" value="submit" className="btn" />
+            </form>
+          </div>
+          <TokensList
+            query={GET_ALL_TOKENS_QUERY}
+            variables={queryVars}
+            className="col-span-4"
+          />
+        </div>
       </main>
     </div>
   )
@@ -36,7 +79,15 @@ export async function getStaticProps() {
 
   await apolloClient.query({
     query: GET_ALL_TOKENS_QUERY,
-    variables: tokensQueryVars,
+    variables: {
+      ...tokensQueryVars,
+      background: '',
+      accessories: '',
+      clothes: '',
+      hair: '',
+      eyes: '',
+      lips: '',
+    },
   })
 
   return addApolloState(apolloClient, {

@@ -1,7 +1,7 @@
 import { useQueryTokens } from 'lib/hooks'
 import Token from './Token'
 
-const TokensList = ({ query, variables }) => {
+const TokensList = ({ query, variables, ...props }) => {
   const { loading, error, tokens, loadingMoreTokens, loadMoreTokens } =
     useQueryTokens(query, variables)
 
@@ -9,7 +9,7 @@ const TokensList = ({ query, variables }) => {
   if (loading && !loadingMoreTokens) return <div>Loading...</div>
 
   return (
-    <div>
+    <div {...props}>
       <div className="grid grid-cols-3 gap-10">
         {tokens.map((token) => {
           const { name, tokenID, image } = token
@@ -17,7 +17,7 @@ const TokensList = ({ query, variables }) => {
         })}
       </div>
       <button
-        className="px-5 py-3 mt-10 text-xs font-medium uppercase transition duration-500 border-2 border-black hover:bg-black hover:text-white"
+        className="btn"
         onClick={() => loadMoreTokens()}
         disabled={loadingMoreTokens}
       >
