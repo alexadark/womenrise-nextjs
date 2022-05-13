@@ -44,7 +44,7 @@ const Home = () => {
         <div className="grid grid-cols-5 gap-10">
           <div className="col-span-1">
             <h3>Filters</h3>
-            <form className="space-y-5" onSubmit={}>
+            <form className="space-y-5">
               <input
                 type="text"
                 placeholder="background"
