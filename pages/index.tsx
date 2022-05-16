@@ -67,6 +67,38 @@ const Home = () => {
                   setFilters({ ...filters, accessories: e.target.value })
                 }
               />
+              <input
+                type="text"
+                placeholder="clothes"
+                value={filters.clothes}
+                onChange={(e) =>
+                  setFilters({ ...filters, clothes: e.target.value })
+                }
+              />
+              <input
+                type="text"
+                placeholder="hair"
+                value={filters.hair}
+                onChange={(e) =>
+                  setFilters({ ...filters, hair: e.target.value })
+                }
+              />
+              <input
+                type="text"
+                placeholder="eyes"
+                value={filters.eyes}
+                onChange={(e) =>
+                  setFilters({ ...filters, eyes: e.target.value })
+                }
+              />
+              <input
+                type="text"
+                placeholder="lips"
+                value={filters.lips}
+                onChange={(e) =>
+                  setFilters({ ...filters, lips: e.target.value })
+                }
+              />
               <input type="submit" value="submit" className="btn" />
             </form>
           </div>
