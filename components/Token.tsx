@@ -11,7 +11,7 @@ type tokenTypes = {
 const Token = ({ image, name, id }: tokenTypes) => {
   return (
     <div>
-      <Link href={`/tokens/${id}`}>
+      <Link href={`/token/${id}`}>
         <a>
           <Image
             src={image}

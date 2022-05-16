@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { initializeApollo, addApolloState } from 'lib/apolloClient'
 import {
   GET_ALL_TOKENS_QUERY,
+  SEARCH_TOKENS_QUERY,
   tokensQueryVars,
   filtersQueryVars,
 } from 'lib/queries'
@@ -27,16 +28,18 @@ const Home = () => {
   const [filters, setFilters] = useState({
     ...filtersQueryVars,
   })
-  const queryVars = {
-    ...tokensQueryVars,
-    ...filters,
-  }
+  const [searchQuery, setSearchQuery] = useState('')
+  const [queryVars, setQueryVars] = useState({ ...tokensQueryVars, ...filters })
+  const [query, setQuery] = useState(GET_ALL_TOKENS_QUERY)
   const { loading, error, tokens, loadingMoreTokens, loadMoreTokens, refetch } =
-    useQueryTokens(GET_ALL_TOKENS_QUERY, queryVars)
+    useQueryTokens(query, queryVars)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    refetch()
+    refetch({
+      ...tokensQueryVars,
+      ...filters,
+    })
   }
 
   return (
@@ -47,6 +50,23 @@ const Home = () => {
       </Head>
 
       <main className="flex flex-col items-center justify-center flex-1 w-full px-20 text-center">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            setQuery(SEARCH_TOKENS_QUERY)
+            refetch({
+              ...tokensQueryVars,
+              text: 'black',
+            })
+          }}
+        >
+          <input
+            type="text"
+            placeholder="search"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <input type="submit" value="search" className="btn" />
+        </form>
         <div className="grid grid-cols-5 gap-10">
           <div className="col-span-1">
             <h3>Filters</h3>
