@@ -1,10 +1,13 @@
-import { useQueryTokens } from 'lib/hooks'
 import Token from './Token'
 
-const TokensList = ({ query, variables, ...props }) => {
-  const { loading, error, tokens, loadingMoreTokens, loadMoreTokens } =
-    useQueryTokens(query, variables)
-
+const TokensList = ({
+  loading,
+  error,
+  tokens,
+  loadingMoreTokens,
+  loadMoreTokens,
+  ...props
+}) => {
   if (error) return <div>"Error loading Tokens"</div>
   if (loading && !loadingMoreTokens) return <div>Loading...</div>
 

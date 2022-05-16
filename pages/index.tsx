@@ -2,9 +2,14 @@ import { useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { initializeApollo, addApolloState } from 'lib/apolloClient'
-import { GET_ALL_TOKENS_QUERY, tokensQueryVars } from 'lib/queries'
+import {
+  GET_ALL_TOKENS_QUERY,
+  tokensQueryVars,
+  filtersQueryVars,
+} from 'lib/queries'
 
 import TokensList from 'components/TokensList'
+import { useQueryTokens } from 'lib/hooks'
 
 type token = {
   id: string
@@ -20,18 +25,19 @@ type homeType = {
 
 const Home = () => {
   const [filters, setFilters] = useState({
-    background: '',
-    accessories: '',
-    clothes: '',
-    hair: '',
-    eyes: '',
-    lips: '',
+    ...filtersQueryVars,
   })
   const queryVars = {
     ...tokensQueryVars,
     ...filters,
   }
-  console.log(filters)
+  const { loading, error, tokens, loadingMoreTokens, loadMoreTokens, refetch } =
+    useQueryTokens(GET_ALL_TOKENS_QUERY, queryVars)
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    refetch()
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -44,7 +50,7 @@ const Home = () => {
         <div className="grid grid-cols-5 gap-10">
           <div className="col-span-1">
             <h3>Filters</h3>
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={handleSubmit}>
               <input
                 type="text"
                 placeholder="background"
@@ -65,8 +71,11 @@ const Home = () => {
             </form>
           </div>
           <TokensList
-            query={GET_ALL_TOKENS_QUERY}
-            variables={queryVars}
+            loading={loading}
+            error={error}
+            tokens={tokens}
+            loadingMoreTokens={loadingMoreTokens}
+            loadMoreTokens={loadMoreTokens}
             className="col-span-4"
           />
         </div>
@@ -81,12 +90,7 @@ export async function getStaticProps() {
     query: GET_ALL_TOKENS_QUERY,
     variables: {
       ...tokensQueryVars,
-      background: '',
-      accessories: '',
-      clothes: '',
-      hair: '',
-      eyes: '',
-      lips: '',
+      ...filtersQueryVars,
     },
   })
 
