@@ -33,6 +33,6 @@ export const getStaticPaths = async () => {
 
   return {
     paths: data.tokens?.map((token) => `/token/${token.id}`) || [],
-    fallback: true,
+    fallback: 'blocking',
   }
 }
