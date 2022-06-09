@@ -17,10 +17,14 @@ const Home: NextPage = () => {
     ...filtersQueryVars,
   })
   const [searchQuery, setSearchQuery] = useState('')
-  const [queryVars, setQueryVars] = useState({ ...tokensQueryVars, ...filters })
-  const [query, setQuery] = useState(GET_ALL_TOKENS_QUERY)
+  const [queryVars, setQueryVars] = useState<any>({
+    ...tokensQueryVars,
+    ...filters,
+  })
+  const [query, setQuery] = useState<any>(GET_ALL_TOKENS_QUERY)
   const { loading, error, tokens, loadingMoreTokens, loadMoreTokens, refetch } =
     useQueryTokens(query, queryVars)
+  console.log(tokensQueryVars)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -36,10 +40,11 @@ const Home: NextPage = () => {
         onSubmit={(e) => {
           e.preventDefault()
           setQuery(SEARCH_TOKENS_QUERY)
-          refetch({
-            ...tokensQueryVars,
-            text: 'black',
+          setQueryVars({
+            ...queryVars,
+            text: searchQuery,
           })
+          refetch()
         }}
       >
         <input

@@ -13,13 +13,7 @@ const Token = ({ image, name, id }: tokenTypes) => {
     <div>
       <Link href={`/token/${id}`}>
         <a>
-          <Image
-            src={image}
-            // layout="responsive"
-            width={300}
-            height={300}
-            alt={name}
-          />
+          <Image src={image} width={300} height={300} alt={name} />
           <h3>{name}</h3>
         </a>
       </Link>
