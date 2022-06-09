@@ -46,15 +46,16 @@ const Home: NextPage = () => {
           })
           refetch()
         }}
+        className="my-10 flex gap-3 "
       >
         <input
           type="text"
           placeholder="search"
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <input type="submit" value="search" className="btn" />
+        <input type="submit" value="search" className="btn !mt-0" />
       </form>
-      <div className="grid grid-cols-5 gap-10">
+      <div className="grid gap-10 md:grid-cols-5">
         <div className="col-span-1">
           <h3>Filters</h3>
           <form className="space-y-5" onSubmit={handleSubmit}>

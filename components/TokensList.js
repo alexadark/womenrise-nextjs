@@ -13,7 +13,7 @@ const TokensList = ({
 
   return (
     <div {...props}>
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
         {tokens?.map((token) => {
           const { name, id, image } = token
           return <Token key={id} id={id} image={image} name={name} />
